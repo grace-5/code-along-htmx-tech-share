@@ -9,6 +9,7 @@ limit = 4;
 @app.route('/')
 def index():
 
+    #anything yap related is non-demo, extra lol
     yap_html = ""
     for idx, text in yap_list.items():
         yap_html += yap_display(idx, text)
