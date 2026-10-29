@@ -23,6 +23,46 @@
         <p>We want message to display here!</p>
     </div>
 
+<!-- ---(non-demo, extra) SEARCH EXAMPLE ------------------------------------------------------------------------- -->
+ <div class="container">
+        <h2>Slop Search</h2>
+
+        <!-- hx-get: Sends a GET request to /search. -->
+        <!-- hx-trigger: When to send the request. -->
+        <!-- https://htmx.org/docs/#triggers -->
+        <!-- "input changed delay:0.35s" = search results automatically pop up 300ms after user stops typing -->
+        <!-- https://htmx.org/docs/#trigger-modifiers -->
+        <!--  removing it would mean a user would have to press 'enter' for the search results to display y'know?-->
+        <input type="search" name="slop" placeholder="Search slop here..."
+                hx-get="/search"
+                hx-trigger="input changed delay:0.35s"
+                hx-target="#results">
+    
+        <ul id="results"></ul>
+    </div>
+
+<!-- ---(non-demo, extra) ADD + DELETE EXAMPLE ------------------------------------------------------------------------- -->
+    <div class="container">
+        <h2>Add n Delete</h2>
+
+        <!-- hx-post: Sends the form to /yaplist as an AJAX POST -->
+        <!-- hx-target: What Flask returns will go into <ul id="display-list"> -->
+        <!-- hx-swap="beforeend": Add it to the end of the list. innerHTML would wipe out the existing items -->
+        <!-- https://htmx.org/docs/#swapping -->
+        <!-- hx-on::after-request: Runs a bit of JavaScript when the request finishes. this.reset() clears the form -->
+        <!-- https://htmx.org/examples/reset-user-input/ -->
+        <form hx-post="/yaplist" hx-target="#display-list" hx-swap="beforeend" hx-on::after-request="this.reset()">
+            <input name="text" placeholder="Yap away bud" required>
+            <button>Add</button>
+        </form>
+
+        
+        <!-- | safe tells Jinja to insert it as real HTML instead of straight up text -->
+        <!-- not part of the tech share, but necessary if writing up HTML from Flask-->
+        <!--https://jinja.app/documentation/jinja-filters/jinja-safe-filter-function-to-disable-html-escaping -->
+        <ul id="display-list">{{ yap_html | safe }}</ul>
+    </div>
+
 <!-- ---EXAMPLE 2------------------------------------------------------------------------- -->
     <hr>
     <h2>Infinite scroll???!!</h2>
